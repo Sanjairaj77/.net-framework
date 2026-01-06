@@ -1,0 +1,100 @@
+using System;
+using System.Collections;
+
+namespace EmployeeApp
+{
+    // Employee class
+    public class Employee
+    {
+        public string EmployeeName { get; set; }
+        public int EmployeeID { get; set; }
+        public double Salary { get; set; }
+
+        public Employee(string name, int id, double salary)
+        {
+            EmployeeName = name;
+            EmployeeID = id;
+            Salary = salary;
+        }
+    }
+
+    // EmployeeDAL class
+    public class EmployeeDAL
+    {
+        // 1. ArrayList to store employees
+        private ArrayList employeeList = new ArrayList();
+
+        // a. Add Employee
+        public bool AddEmployee(Employee e)
+        {
+            if (e == null)
+                return false;
+
+            employeeList.Add(e);
+            return true;
+        }
+
+        // b. Delete Employee by ID
+        public bool DeleteEmployee(int id)
+        {
+            foreach (Employee emp in employeeList)
+            {
+                if (emp.EmployeeID == id)
+                {
+                    employeeList.Remove(emp);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // c. Search Employee by ID
+        public string SearchEmployee(int id)
+        {
+            foreach (Employee emp in employeeList)
+            {
+                if (emp.EmployeeID == id)
+                    return emp.EmployeeName;
+            }
+            return null;
+        }
+
+        // d. Get all employees
+        public Employee[] GetAllEmployeesListAll()
+        {
+            Employee[] employees = new Employee[employeeList.Count];
+            employeeList.CopyTo(employees);
+            return employees;
+        }
+    }
+
+    // Main class
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            EmployeeDAL dal = new EmployeeDAL();
+
+            // Adding employees
+            dal.AddEmployee(new Employee("Rahul", 101, 50000));
+            dal.AddEmployee(new Employee("Anita", 102, 60000));
+            dal.AddEmployee(new Employee("Suresh", 103, 55000));
+
+            // Search employee
+            Console.WriteLine("Search Result: " + dal.SearchEmployee(102));
+
+            // Delete employee
+            dal.DeleteEmployee(101);
+
+            // Display all employees
+            Employee[] employees = dal.GetAllEmployeesListAll();
+            Console.WriteLine("\nEmployee List:");
+            foreach (Employee emp in employees)
+            {
+                Console.WriteLine($"{emp.EmployeeID}  {emp.EmployeeName}  {emp.Salary}");
+            }
+
+            Console.ReadLine();
+        }
+    }
+}

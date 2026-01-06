@@ -1,0 +1,100 @@
+using System;
+using System.Collections;
+
+namespace Task10_1_2
+{
+    // Student class
+    public class Student
+    {
+        public string StudentName { get; set; }
+        public int StudentID { get; set; }
+        public double Marks { get; set; }
+
+        public Student(string name, int id, double marks)
+        {
+            StudentName = name;
+            StudentID = id;
+            Marks = marks;
+        }
+    }
+
+    // StudentDAL class
+    public class StudentDAL
+    {
+        // 1. ArrayList to store students
+        private ArrayList studentList = new ArrayList();
+
+        // a. Add Student
+        public bool AddStudent(Student s)
+        {
+            if (s == null)
+                return false;
+
+            studentList.Add(s);
+            return true;
+        }
+
+        // b. Delete Student by ID
+        public bool DeleteStudent(int id)
+        {
+            foreach (Student stu in studentList)
+            {
+                if (stu.StudentID == id)
+                {
+                    studentList.Remove(stu);
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // c. Search Student by ID
+        public double SearchStudent(int id)
+        {
+            foreach (Student stu in studentList)
+            {
+                if (stu.StudentID == id)
+                    return stu.Marks;
+            }
+            return -1;
+        }
+
+        // d. Get all students
+        public Student[] GetAllStudents()
+        {
+            Student[] students = new Student[studentList.Count];
+            studentList.CopyTo(students);
+            return students;
+        }
+    }
+
+    // Main Program
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            StudentDAL dal = new StudentDAL();
+
+            // Add students
+            dal.AddStudent(new Student("Arjun", 1, 85.5));
+            dal.AddStudent(new Student("Meena", 2, 92.0));
+            dal.AddStudent(new Student("Kiran", 3, 78.0));
+
+            // Search student
+            Console.WriteLine("Marks of Student ID 2: " + dal.SearchStudent(2));
+
+            // Delete student
+            dal.DeleteStudent(1);
+
+            // Display all students
+            Console.WriteLine("\nStudent List:");
+            Student[] students = dal.GetAllStudents();
+            foreach (Student s in students)
+            {
+                Console.WriteLine($"{s.StudentID}  {s.StudentName}  {s.Marks}");
+            }
+
+            Console.ReadLine();
+        }
+    }
+}
