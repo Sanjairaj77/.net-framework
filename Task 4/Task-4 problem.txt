@@ -1,0 +1,176 @@
+Task4.1:problem-1
+
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        // Read matrix size
+        int n = int.Parse(Console.ReadLine());
+        int[,] mat = new int[n, n];
+
+        // Read matrix elements
+        for (int i = 0; i < n; i++)
+        {
+            string[] row = Console.ReadLine().Split();
+            for (int j = 0; j < n; j++)
+            {
+                mat[i, j] = int.Parse(row[j]);
+            }
+        }
+
+        int primarySum = 0;
+        int secondarySum = 0;
+
+        for (int i = 0; i < n; i++)
+        {
+            primarySum += mat[i, i];              
+            secondarySum += mat[i, n - 1 - i];    
+        }
+        int result = Math.Abs(primarySum - secondarySum);
+
+        Console.WriteLine(result);
+    }
+}
+Task4.2 problem-2
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        Console.Write("Enter n (matrix size): ");
+        int n = int.Parse(Console.ReadLine());
+
+        int[,] mat = new int[n, n];
+
+        Console.WriteLine("Enter matrix elements:");
+        for (int i = 0; i < n; i++)
+        {
+            string[] row = Console.ReadLine().Split();
+            for (int j = 0; j < n; j++)
+            {
+                mat[i, j] = int.Parse(row[j]);
+            }
+        }
+
+        Console.WriteLine("Snake Pattern Output:");
+
+        for (int i = 0; i < n; i++)
+        {
+            // Even row → left to right
+            if (i % 2 == 0)
+            {
+                for (int j = 0; j < n; j++)
+                    Console.Write(mat[i, j] + " ");
+            }
+            else // Odd row → right to left
+            {
+                for (int j = n - 1; j >= 0; j--)
+                    Console.Write(mat[i, j] + " ");
+            }
+        }
+    }
+}
+
+Task4.3 problem-3
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        int n = int.Parse(Console.ReadLine());
+        int[,] mat = new int[n, n];
+
+        // Read matrix
+        for (int i = 0; i < n; i++)
+        {
+            string[] row = Console.ReadLine().Split();
+            for (int j = 0; j < n; j++)
+            {
+                mat[i, j] = int.Parse(row[j]);
+            }
+        }
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = i + 1; j < n; j++)
+            {
+                int temp = mat[i, j];
+                mat[i, j] = mat[j, i];
+                mat[j, i] = temp;
+            }
+        }
+
+        for (int i = 0; i < n; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                Console.Write(mat[i, j] + " ");
+            }
+            Console.WriteLine();
+        }
+    }
+}
+
+Task4.4 problem-4
+using System;
+
+class Program
+{
+    static void Main()
+    {
+        string[] dims = Console.ReadLine().Split();
+        int m = int.Parse(dims[0]); // rows
+        int n = int.Parse(dims[1]); // columns
+
+        int[,] mat = new int[m, n];
+
+        // Read matrix
+        for (int i = 0; i < m; i++)
+        {
+            string[] row = Console.ReadLine().Split();
+            for (int j = 0; j < n; j++)
+            {
+                mat[i, j] = int.Parse(row[j]);
+            }
+        }
+
+        PrintSpiral(mat, m, n);
+    }
+
+    static void PrintSpiral(int[,] mat, int m, int n)
+    {
+        int top = 0, bottom = m - 1;
+        int left = 0, right = n - 1;
+
+        while (top <= bottom && left <= right)
+        {
+
+            for (int i = left; i <= right; i++)
+                Console.Write(mat[top, i] + " ");
+            top++;
+
+            for (int i = top; i <= bottom; i++)
+                Console.Write(mat[i, right] + " ");
+            right--;
+
+
+            if (top <= bottom)
+            {
+                for (int i = right; i >= left; i--)
+                    Console.Write(mat[bottom, i] + " ");
+                bottom--;
+            }
+
+            if (left <= right)
+            {
+                for (int i = bottom; i >= top; i--)
+                    Console.Write(mat[i, left] + " ");
+                left++;
+            }
+        }
+    }
+}
